@@ -16,8 +16,21 @@ Downloaded 2026-08-20 from the NSF–Kellogg Institute Database on Economic Inte
 
 - **78 columns**: 10 identifier columns (`Exporter`, `IDEX`, `ISOEX`, `Importer`, `IDIM`, `ISOIM`, `IDPAIR (Relative)`, `IDPAIR`, `Countries`, `Sort Pair`) followed by one column per year, **1950 through 2017** (confirmed directly — the July 2021 release refreshed and re-validated the data but did not extend the year coverage past 2017).
 - **37,830 populated rows** — country pairs listed in **both directions** (e.g., both "Belgium→France" and "France→Belgium" appear as separate rows; per the authors' own documentation, both-direction listing was added as of the May 31, 2013 release). The authors' overview document reports "23,201 pairings over 68 years" as the underlying pair count.
-- Each year cell holds the integration depth as of that year: 0 = no agreement, 1–2 = one-/two-way preferential arrangement, 3 = free trade agreement, 4 = customs union, 5 = common market, 6 = economic union (full definitions on the `Definitions` sheet, sourced to Frankel (1997), *Regional Trading Blocs in the World Economic System*).
+- Each year cell holds the integration depth as of that year, coded 0–6 (full definitions on the `Definitions` sheet, sourced to Frankel (1997), *Regional Trading Blocs in the World Economic System*):
+
+  | Level | Code | Definition | Reciprocal? |
+  |---|---|---|---|
+  | 0 | — | No agreement | — |
+  | 1 | NR-PTA | Non-reciprocal preferences from a developed country | **No** |
+  | 2 | PTA | Reciprocal preferential arrangement | Yes |
+  | 3 | FTA | Free trade area | Yes |
+  | 4 | CU | Customs union | Yes |
+  | 5 | CM | Common market | Yes |
+  | 6 | EUN | Economic union | Yes |
+
+  **Confirmed from the authors' `Data_Construction_Methodology_2021-07-31.pdf`: level 1 (non-reciprocal) specifically includes US GSP (from 1976), EU GSP (from 1976), and the African Growth and Opportunity Act — AGOA — (from 2000), among other unilateral preference programs.** For an African-focused project this is a first-order fact, not a footnote: for most Sub-Saharan African countries, the bulk of their recorded EU/US relationship across 1976–2016 sits at level 1, since reciprocal EU EPAs mostly entered into force only in the 2010s. A treatment variable built only from "FTA-or-deeper" (level ≥3) would exclude AGOA — and most of the GSP era — entirely. See `docs/developing-country-trade-productivity.md` §6.2 for how this project handles the distinction.
 - Cells sometimes read `"NoCty"` instead of a number, meaning that country did not yet exist (or was not internationally recognized) in that year.
+- The same methodology document reports that, after using bilateral trade-flow evidence to rule out agreements where no other documentation existed, the authors could not fully verify agreement status for roughly **1.4% of all country-pair/year cells**, which default to "no agreement." Worth a light robustness check on affected pairs rather than inheriting silently.
 
 ## What was deliberately left out, and why
 

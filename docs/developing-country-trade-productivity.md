@@ -32,7 +32,7 @@ First long-run treatment-effect estimates of FTAs on bilateral trade using match
 Separates *global* interdependence (multilateral trade-cost changes) from *bilateral* determinants of PTA formation — a possible source of instruments (third-country PTA exposure) for a given African country's own PTA formation.
 
 **The NSF–Kellogg Institute Database on Economic Integration Agreements (Baier & Bergstrand).**
-The trade-policy data source for this project: a **country-pair–year panel, 1950–2017, ~195 countries**, coding agreement depth on a 0–6 ordinal scale (0 = none, 1–2 = one/two-way preferential arrangement, 3 = FTA, 4 = customs union, 5 = common market, 6 = economic union), each entry linked to underlying treaty text. Because it is bilateral, it must be collapsed to a country-level "Northern PTA exposure" measure before merging with sectoral productivity data (§6.2).
+The trade-policy data source for this project: a **country-pair–year panel, 1950–2017, ~195 countries**, coding agreement depth on a 0–6 ordinal scale — 0 = none, 1 = non-reciprocal preferences (e.g., GSP, AGOA), 2 = reciprocal preferential arrangement, 3 = FTA, 4 = customs union, 5 = common market, 6 = economic union (full definitions and the reciprocal/non-reciprocal distinction in §6.2) — each entry linked to underlying treaty text. Because it is bilateral, it must be collapsed to a country-level "Northern PTA exposure" measure before merging with sectoral productivity data (§6.2).
 
 **Mattoo, A., Rocha, N., & Ruta, M. (Eds.) (2020). *Handbook of Deep Trade Agreements*. World Bank.**
 Codes which of ~50+ policy areas (services, investment, IP, technical barriers to trade, sanitary/phytosanitary measures, etc.) each agreement covers and whether provisions are legally enforceable — the natural complement to the 0–6 Baier–Bergstrand depth scale, letting the project distinguish a shallow tariff-only agreement (e.g., many older EU/US preference schemes for Africa) from a deep one (e.g., recent EU EPAs with services/investment chapters).
@@ -182,13 +182,43 @@ Given §5.2, the practical recommendation is to **rebuild the core panel on the 
 
 Following §2.2–2.3 and §2.6, a Northern PTA can move African sectoral productivity through: (i) **market access** (export demand from the Northern partner), (ii) **input access** (cheaper/better intermediate goods and capital equipment — the strongest single channel per Amiti–Konings), (iii) **competition/reallocation** (import competition reallocating resources toward more productive domestic producers, per Melitz and Topalova–Khandelwal), and (iv) **regulatory/deep-agreement channels** specific to services, investment, and standards provisions (per Neri-Lainé, Orefice & Ruta). Crucially, per Diao, McMillan & Rodrik's "African paradox," reallocation and within-sector upgrading do not necessarily move together in Africa — a PTA could plausibly support one while leaving the other unchanged, which is exactly what the decomposition in §6.3 is designed to detect.
 
-### 6.2 Sample and variable construction
+**Channels (ii) and (iii) require reciprocity.** Input access and import-competition/reallocation only operate if the African country itself lowers its own barriers — which, as §6.2 details, is not true of every arrangement in the data. This is not a minor caveat; it is the reason the treatment variable cannot simply be "any agreement" and is addressed directly below.
+
+### 6.2 Sample and variable construction, and how the data's agreement *types* are handled
 
 1. **Restrict the country sample to the 24 African countries identified in §5.1** (extending to the larger Diao–Harttgen–McMillan-style 39-country African panel or the GGDC Africa Sector Database if broader coverage is obtained).
 2. **Classify each African country's trading partners into "Northern" (developed) vs. other**, using a fixed-vintage World Bank/IMF advanced-economies list.
-3. **Collapse the Baier–Bergstrand bilateral panel into a country-level "Northern PTA exposure" series** for each African country, in one of three variants: (a) binary — any agreement (FTA-or-deeper, i.e., level ≥3) in force with a Northern partner; (b) intensity — count of Northern partners with an agreement, or maximum/average depth score; (c) trade- or GDP-weighted exposure, requiring bilateral trade data (BACI/Comtrade) as an additional input.
-4. **Merge onto the African country–sector–year panel** by country and year.
-5. **Outcome variables**: log `Labor_productivity_real` (within-country growth specifications) and log `Labor_productivity_PPP` (cross-country level/convergence specifications); `Value_added_real` and `Employment` shares by sector retained separately as the direct inputs to the decomposition in §6.3.
+
+**A terminology note.** This document uses "PTA" throughout as the generic umbrella term for any discriminatory/preferential trade arrangement — standard usage in the broader trade literature. This is *broader* than Baier–Bergstrand's own codebook, where "PTA" denotes specifically **level 2** on their 0–6 ladder (see below), one rung below a free trade agreement. When precision matters, this document refers to the specific level by name (e.g., "level-1 non-reciprocal preferences," "FTA-or-deeper").
+
+**The six levels are not interchangeable for this project, and the split matters most at exactly the reciprocal/non-reciprocal line.** Confirmed directly from the authors' own construction methodology (now in `data/baier-bergstrand/`):
+
+| Level | Code | Definition | Reciprocal (African country also liberalizes)? |
+|---|---|---|---|
+| 0 | — | No agreement | — |
+| 1 | NR-PTA | "Preferential terms and customs concessions given by developed nations to developing countries" | **No.** Confirmed to include US GSP (from 1976), EU GSP (from 1976), and **AGOA (from 2000)** specifically. |
+| 2 | PTA | "Preferential terms to members vs. non-members" | Yes |
+| 3 | FTA | Free trade area — barriers eliminated among members | Yes |
+| 4 | CU | Customs union | Yes |
+| 5 | CM | Common market | Yes |
+| 6 | EUN | Economic union | Yes |
+
+The practical consequence for an African-focused project is large: **for most Sub-Saharan African countries, the bulk of their recorded relationship with the EU and US across 1976–2016 sits at level 1** (GSP, then AGOA from 2000), not level 2 or above — reciprocal EU Economic Partnership Agreements with African partners mostly entered into force only in the 2010s, near the end of the sample window. This means:
+
+- **AGOA — the subject of the closest precedent paper in this review (Mulangu 2012, §2.5) — is itself a level-1, non-reciprocal arrangement.** A treatment variable that only counts FTA-or-deeper (level ≥3) would exclude AGOA entirely and miss the exact setting that paper studies.
+- A binary "any agreement, level ≥3" treatment (as an earlier draft of this section proposed) would discard four decades of GSP/AGOA-era variation and effectively reduce the analysis to only the recent EPA transitions — a much thinner design than the data supports.
+- Because reciprocity is also where the input-access and competition/reallocation channels switch on (§6.1), the reciprocal/non-reciprocal line is not just a data-cleaning choice — it is itself a testable hypothesis about mechanism.
+
+**Recommended construction, in three parts rather than a single collapsed variable:**
+
+3. **Primary treatment: the ordinal depth score itself**, not a collapsed binary. For each African country, take (for each year) the maximum level-0–6 code across all its Northern partners as `PTA_North_depth_c,t` — this preserves the GSP/AGOA-era variation as a meaningful non-zero treatment intensity rather than pooling it with "no agreement." Use this as the primary continuous/ordinal regressor in §6.3–6.4.
+4. **A reciprocal-vs-non-reciprocal split as the first heterogeneity cut, not an afterthought**: construct `Reciprocal_c,t` = 1 if the maximum level with any Northern partner is ≥2 (vs. exactly 1, non-reciprocal-only, vs. 0). Estimating the sector-level and decomposition-component regressions (§6.3–6.4) separately — or with an interaction — for the 0→1 transition (market-access channel only) versus the 1→2+ transition (input-access and competition channels switching on) is a direct, data-grounded test of which channels are actually active, and directly extends Mulangu's AGOA-only finding to the reciprocal case.
+5. **FTA-or-deeper (level ≥3) retained as one deliberate comparison specification**, not the default — useful for isolating "deep reciprocal integration" specifically (paralleling Neri-Lainé, Orefice & Ruta's depth results, §2.4), but reported alongside, not instead of, the full ordinal and reciprocal-split specifications above. Treat the `NR-PTA+`/GSP+ sub-code (1.1 in the raw data) as equivalent to level 1 unless finer within-level-1 variation is specifically of interest.
+6. **Trade- or GDP-weighted exposure** as a further robustness variant, weighting each Northern partner's level by that partner's share of the African country's total trade or GDP, requiring bilateral trade data (BACI/Comtrade) as an additional input.
+7. **Merge onto the African country–sector–year panel** by country and year.
+8. **Outcome variables**: log `Labor_productivity_real` (within-country growth specifications) and log `Labor_productivity_PPP` (cross-country level/convergence specifications); `Value_added_real` and `Employment` shares by sector retained separately as the direct inputs to the decomposition in §6.3.
+
+One further data-quality note from the same methodology document: the authors could not fully verify agreement status for about 1.4% of all country-pair/year cells (after using trade-flow evidence to rule out agreements for the rest), and treat those as "no agreement" by default assumption — worth a light robustness check (e.g., dropping or flagging affected country-pairs) rather than an assumption to inherit silently.
 
 ### 6.3 The McMillan–Rodrik decomposition, and how trade agreements enter it
 
@@ -211,10 +241,10 @@ where `P` is economy-wide labor productivity, `θ_i` is sector *i*'s employment 
 **Estimating equation for the component regressions**, paralleling the baseline in §6.4 but with the decomposition components as outcomes:
 
 ```
-Within_c,t   = β_W · PTA_North_c,t + γ_c + δ_t + ε_c,t
-Structural_c,t = β_S · PTA_North_c,t + γ_c + δ_t + ε_c,t
+Within_c,t     = β_W · PTA_North_depth_c,t + γ_c + δ_t + ε_c,t
+Structural_c,t = β_S · PTA_North_depth_c,t + γ_c + δ_t + ε_c,t
 ```
-with country and year fixed effects, estimated first by TWFE as a baseline and then by a staggered-adoption-robust estimator (Callaway–Sant'Anna or the ETWFE approach of Sellner & Yotov) as the primary specification, given the staggered timing of African countries' Northern-PTA entry.
+with country and year fixed effects, estimated first by TWFE as a baseline and then by a staggered-adoption-robust estimator (Callaway–Sant'Anna or the ETWFE approach of Sellner & Yotov) as the primary specification, given the staggered timing of African countries' Northern-PTA entry. Run both equations a second time with `Reciprocal_c,t` (§6.2) in place of the depth score — if β_W rises specifically at the non-reciprocal→reciprocal transition rather than the 0→non-reciprocal one, that is direct evidence the input-access/competition channels (not just market access) are driving within-sector upgrading.
 
 ### 6.4 Empirical strategy for the underlying sector-level productivity regressions
 
@@ -222,9 +252,9 @@ with country and year fixed effects, estimated first by TWFE as a baseline and t
 
 **B. Baseline two-way fixed-effects panel regression**, run as a comparison baseline only, given §2.8's bias warning:
 ```
-ln(LaborProductivity_cst) = β · PTA_North_ct + γ_cs + δ_st + ε_cst
+ln(LaborProductivity_cst) = β · PTA_North_depth_ct + γ_cs + δ_st + ε_cst
 ```
-country–sector fixed effects (γ_cs), sector–year fixed effects (δ_st), standard errors clustered by country.
+country–sector fixed effects (γ_cs), sector–year fixed effects (δ_st), standard errors clustered by country. As in §6.3, re-estimate with `Reciprocal_ct` in place of the depth score as a direct test of which channels are active.
 
 **C. Staggered-adoption-robust estimator (primary specification)**, using not-yet-treated African countries as the comparison group, aggregated into an overall ATT and a dynamic event-study profile.
 
@@ -238,11 +268,11 @@ GDP per capita and growth; human capital (years of schooling); FDI inflows; inst
 
 ### 6.6 Practical sequencing
 
-1. Confirm the actual year range of the downloaded Baier–Bergstrand file; extract the 24-country African subsample identified in §5.1 and check overlap/coverage against de Vries–Timmer–de Vries's 11-country Africa Sector Database and Diao–Harttgen–McMillan's 39-country sample.
-2. Build the Northern-PTA-exposure variable (three variants, §6.2 step 3) for these countries; compare them for robustness.
+1. Confirm the actual year range of the downloaded Baier–Bergstrand file (done — confirmed 1950–2017, §5.4); extract the 24-country African subsample identified in §5.1 and check overlap/coverage against de Vries–Timmer–de Vries's 11-country Africa Sector Database and Diao–Harttgen–McMillan's 39-country sample.
+2. Build the ordinal depth score, the reciprocal/non-reciprocal split, and the FTA-or-deeper indicator (§6.2, steps 3–5) for these countries; tabulate how much of the African panel's variation is level-1 (GSP/AGOA-era) versus level 2+ before choosing a primary specification — the earlier binary-only design in this section undercounted exactly this variation and would have excluded the AGOA setting entirely.
 3. Run the McMillan–Rodrik decomposition on the African panel *without* any trade variable first, to replicate de Vries–Timmer–de Vries / Diao–Harttgen–McMillan as a sanity check that the pipeline is correct.
 4. Run the descriptive event-study plots (§6.4.A) — the fastest way to learn whether the design is viable before investing in depth-coding or bilateral-trade-weighting extensions.
-5. Estimate the component regressions (§6.3.A) and the sector-level regressions (§6.4.B/C) in parallel; compare TWFE vs. staggered-DiD estimates directly, replicating the Sellner–Yotov bias finding in this project's own African sample.
+5. Estimate the component regressions (§6.3.A) and the sector-level regressions (§6.4.B/C) in parallel, each run once with the depth score and once with the reciprocal split (§6.3–6.4); compare TWFE vs. staggered-DiD estimates directly, replicating the Sellner–Yotov bias finding in this project's own African sample.
 6. Add heterogeneity (§6.4.D) and endogeneity checks (§6.4.E/§6.3.B) once the baseline is stable.
 
 ---
