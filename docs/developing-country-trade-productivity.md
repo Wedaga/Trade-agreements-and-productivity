@@ -1,0 +1,303 @@
+# North–South Trade Agreements and Sectoral Productivity in African Developing Countries
+### Literature Review and Proposed Methodology
+
+*Prepared: August 2026*
+*Scope: this project studies how developing **African** countries' sectoral productivity responds to trade agreements with developed ("Northern") economies, and — as its core empirical strategy — decomposes that productivity response into within-sector and structural-change (labor-reallocation) components using the McMillan–Rodrik procedure. Agreements between two developing countries (e.g., COMESA, SADC, ECOWAS) are outside the core scope and are discussed only as contrast/context.*
+
+---
+
+## 1. Research Motivation
+
+Three literatures bear on this project, and each is well developed on its own but has not, on the evidence of this review, been combined the way this project proposes:
+
+- A **North–South PTA and productivity literature** exists, but its African evidence is thin and largely restricted to single-agreement case studies (AGOA) or trade-flow effects (EU–Africa EPAs) rather than productivity effects.
+- A **structural-change / McMillan–Rodrik decomposition literature** has been applied to Africa specifically, more than once, using data from the same GGDC family this project holds — but always with trade treated, at most, as a broad "openness" control, never as a *trade-agreement* treatment variable with agreement-specific timing.
+- A **general (non-African) literature** establishes the theoretical channels — reallocation, input access, learning-by-exporting — and the modern econometric methods needed to estimate PTA effects credibly despite staggered, non-random treatment timing.
+
+The review below covers all three, flags with **★ Closest precedent** the papers nearest to this project's actual design, and closes with an explicit gap statement (§4) and a methodology (§6) built around confirming or refuting the project's stated plan: decompose sectoral productivity growth in African economies with the McMillan–Rodrik procedure, then test whether entering a trade agreement with a developed-world partner shifts the within-sector and/or structural-change components of that decomposition.
+
+---
+
+## 2. Literature Review
+
+### 2.1 Measuring trade agreements: the Baier–Bergstrand database and related work
+
+**Baier, S. L., & Bergstrand, J. H. (2004). "Economic Determinants of Free Trade Agreements." *Journal of International Economics*, 64(1), 29–63.**
+Shows PTA formation is well predicted by low bilateral trade costs, larger combined economic size, and similarity in partner size, correctly classifying ~85% of existing FTAs and ~97% of non-agreement pairs. Establishes that **PTA formation is not random** — the covariates here (size, distance, similarity) are the natural controls for the endogeneity checks in §6.3.F.
+
+**Baier, S. L., & Bergstrand, J. H. (2007). "Do Free Trade Agreements Actually Increase Members' International Trade?" *Journal of International Economics*, 71(1), 72–95.**
+First long-run treatment-effect estimates of FTAs on bilateral trade using matching econometrics rather than pure cross-section gravity, showing naive cross-sectional models understate FTA effects because they ignore the endogeneity of agreement formation.
+
+**Baier, S. L., Bergstrand, J. H., & Feng, M. (2014). "Economic Determinants of Free Trade Agreements Revisited: Distinguishing Sources of Interdependence." *Review of International Economics*, 22(1), 31–58.**
+Separates *global* interdependence (multilateral trade-cost changes) from *bilateral* determinants of PTA formation — a possible source of instruments (third-country PTA exposure) for a given African country's own PTA formation.
+
+**The NSF–Kellogg Institute Database on Economic Integration Agreements (Baier & Bergstrand).**
+The trade-policy data source for this project: a **country-pair–year panel, 1950–2017, ~195 countries**, coding agreement depth on a 0–6 ordinal scale (0 = none, 1–2 = one/two-way preferential arrangement, 3 = FTA, 4 = customs union, 5 = common market, 6 = economic union), each entry linked to underlying treaty text. Because it is bilateral, it must be collapsed to a country-level "Northern PTA exposure" measure before merging with sectoral productivity data (§6.2).
+
+**Mattoo, A., Rocha, N., & Ruta, M. (Eds.) (2020). *Handbook of Deep Trade Agreements*. World Bank.**
+Codes which of ~50+ policy areas (services, investment, IP, technical barriers to trade, sanitary/phytosanitary measures, etc.) each agreement covers and whether provisions are legally enforceable — the natural complement to the 0–6 Baier–Bergstrand depth scale, letting the project distinguish a shallow tariff-only agreement (e.g., many older EU/US preference schemes for Africa) from a deep one (e.g., recent EU EPAs with services/investment chapters).
+
+### 2.2 Theoretical channels linking trade agreements to productivity
+
+**Melitz, M. J. (2003). "The Impact of Trade on Intra-Industry Reallocations and Aggregate Industry Productivity." *Econometrica*, 71(6), 1695–1725.**
+Trade exposure reallocates resources from the least to the most productive firms within an industry, raising industry-average productivity even without any single firm becoming more efficient — the theoretical basis for expecting reallocation-driven, not just technology-driven, productivity effects, which is exactly what the McMillan–Rodrik decomposition (§2.6, §6.3) is built to detect at the sector level.
+
+**McMillan, M., & Rodrik, D. (2011). "Globalization, Structural Change and Productivity Growth." NBER Working Paper 17143.** and **McMillan, M., Rodrik, D., & Verduzco-Gallo, Í. (2014). "Globalization, Structural Change, and Productivity Growth, with an Update on Africa." *World Development*, 63, 11–32.** ★ *Method precedent*
+The source of the decomposition procedure the project plans to use: aggregate labor productivity growth is split into a *within-sector* component (sectors getting more efficient at what they already do) and a *structural-change* component (labor moving between sectors of different productivity levels). Applied to Africa, both papers find structural change has often been *growth-reducing* since 1990 — labor moving toward, not away from, low-productivity activities — concentrated in resource-exporting countries, with competitive exchange rates and labor-market flexibility associated with growth-enhancing reallocation instead. This supplies both the method (§6.3) and a live African hypothesis: a Northern PTA's productivity payoff may show up specifically by *reversing* this growth-reducing pattern — pulling labor toward tradable manufacturing/services rather than away from it.
+
+**North–South trade, knowledge spillovers, and the "natural trading partners" hypothesis.**
+Argues technology spillovers from trade are regional and partner-specific — a developing country gains most from trading with the advanced economy it is closest to institutionally or geographically. For African countries, the EU is the obvious "natural" Northern partner by this logic, which is the theoretical basis for expecting EU-linked agreements (EPAs, GSP+, prior Cotonou/Lomé arrangements) to show larger effects than, say, agreements with more distant Northern partners.
+
+### 2.3 Firm- and plant-level evidence on trade liberalization and productivity (non-African, foundational)
+
+**Topalova, P., & Khandelwal, A. (2011). "Trade Liberalization and Firm Productivity: The Case of India." *Review of Economics and Statistics*, 93(3), 995–1009.**
+India's 1991 tariff reform raised firm productivity through both import competition (output tariffs) and cheaper/better intermediate inputs (input tariffs), the latter larger. Lesson for this project: **split PTA exposure by final-goods vs. intermediate-goods channels** where possible, rather than a single undifferentiated treatment.
+
+**Amiti, M., & Konings, J. (2007). "Trade Liberalization, Intermediate Inputs, and Productivity: Evidence from Indonesia." *American Economic Review*, 97(5), 1611–1638.**
+A 10-point cut in input tariffs raised productivity ~12% for input-importing firms — at least twice the output-tariff effect. Reinforces that the most plausible mechanism for *North–South* agreements specifically is African firms' access to Northern intermediate inputs and embodied technology, not just export market access.
+
+**De Loecker, J. (2007). "Do Exports Generate Higher Productivity? Evidence from Slovenia." *Journal of International Economics*, 73(1), 69–98.** and **De Loecker, J. (2013). "Detecting Learning by Exporting." *American Economic Journal: Microeconomics*, 5(3), 1–21.**
+Develops methods allowing productivity to evolve endogenously with export status, finding genuine learning-by-exporting effects. A caution against attributing observed productivity-PTA correlations to a causal channel without addressing reverse causality — reinforcing the event-study/staggered-DiD design in §6.3.
+
+### 2.4 Trade agreements and productivity in developing countries generally
+
+**Choudhri, E. U., & Hakura, D. S. "International Trade and Productivity Growth: Exploring the Sectoral Effects for Developing Countries." IMF Working Paper.**
+Using a Krugman-style "technological gap" model, finds import competition raises productivity growth in *medium-growth* manufacturing sectors specifically, not low- or high-growth ones — direct precedent for expecting non-uniform, sector-specific effects rather than a single average treatment effect across all African manufacturing.
+
+**Neri-Lainé, M., Orefice, G., & Ruta, M. (2023). "Deep Trade Agreements and Heterogeneous Firms' Exports." World Bank Policy Research Working Paper 10277.**
+Using firm exports for 31 developing countries (2000–2020) matched to the Deep Trade Agreements database, finds moving from a shallow to a deep agreement raises exports ~3.6% on average, entirely driven by large, GVC-connected firms; small, less-connected firms are, on average, hurt. Evidence that **agreement depth matters and effects are heterogeneous by firm/sector connectivity** — a caution relevant to African economies, where GVC connectivity is low outside a handful of manufacturing hubs (e.g., Lesotho/Eswatini apparel, Ethiopian light manufacturing).
+
+### 2.5 Trade agreements, exports, and productivity in Africa specifically
+
+**Mulangu, F. M. (2012). "Preferential Trade Agreements, Employment, and Productivity: Evidence from AGOA." ACET Working Paper.** ★★ *Closest precedent*
+Studies the U.S. African Growth and Opportunity Act — a unilateral-but-conditional Northern preference scheme, not a reciprocal PTA — and finds it raised Sub-Saharan African exports to the U.S. sharply and had a positive effect on firm productivity, partly via resources reallocating toward more productive firms, though employment gains were confined to very large firms. This is the closest existing paper on the *North–South + Africa + productivity* combination, but it (i) covers only one preference scheme rather than the full Baier–Bergstrand universe of African countries' Northern agreements, (ii) is firm-level rather than sector-level, and (iii) does not use the McMillan–Rodrik within/structural-change decomposition — it is the paper this project most directly extends.
+
+**EU–SADC Economic Partnership Agreement trade-growth studies (e.g., an MDPI empirical assessment, 2022) and EU–ACP EPA empirical evidence for Sub-Saharan Africa.**
+This literature quantifies *trade* effects of EU EPAs (trade creation vs. diversion, tariff-revenue losses, export growth by product), generally finding EPAs raise exports for a narrow set of highly disaggregated products (textiles, some agricultural goods) but impose real fiscal costs (customs-revenue losses reported as high as ~20% of government revenue for some West African economies) and mixed net welfare effects. Useful both as a source of specific North–South African agreements to code and as a caution that trade *effects* and *fiscal/productivity* effects can point in different directions — this literature stops at trade flows and does not extend to sectoral productivity.
+
+**South-South regional agreements — ECOWAS, SADC, COMESA (trade-openness/growth studies, e.g., Heliyon 2021; trade-creation/diversion assessments of COMESA/SADC/ECCAS/ECOWAS).**
+This is the *largest* body of empirical work on African regional trade agreements, but it is explicitly South–South (intra-African) rather than North–South, generally studies aggregate trade openness or GDP growth rather than sectoral productivity, and typically finds weak, sometimes statistically insignificant growth effects. Its main value to this project is as a **contrast group and scope boundary**: it confirms that African RTA research to date has concentrated on intra-African integration, leaving the North–South productivity question comparatively unexplored — reinforcing the gap identified in §4.
+
+### 2.6 Structural change and productivity decomposition in Africa
+
+**de Vries, G., Timmer, M., & de Vries, K. (2015). "Structural Transformation in Africa: Static Gains, Dynamic Losses." *Journal of Development Studies*, 51(6), 674–688.** ★★★ *Closest precedent (method)*
+Introduces the **GGDC Africa Sector Database** (11 Sub-Saharan African countries, 1960–2010) and applies a McMillan–Rodrik-style decomposition, finding that resources reallocated into high-productivity-growth manufacturing in the early post-independence period, structural change then *stalled* from the mid-1970s, and when it resumed in the 1990s workers moved mainly into distributive trade services rather than manufacturing — a shift the authors characterize as offering static productivity gains (moving to a higher-productivity sector *today*) without dynamic gains (that sector is not one where productivity itself grows quickly over time), hence "static gains, dynamic losses." This is the closest methodological precedent in the entire review: same decomposition method, same country set (a subset overlaps directly with the 24 African countries in this project's own GGDC file, §5.1), same broad time span — but trade is not a treatment variable in this paper at all.
+
+**Diao, X., Harttgen, K., & McMillan, M. (2017). "The Changing Structure of Africa's Economies." NBER Working Paper 23021 / World Bank Policy Research Working Paper 7958 / *The World Bank Economic Review*, 31(2), 412–433.** ★★★ *Closest precedent (method + scale)*
+Uses the GGDC 10-Sector Database — the same database family as this project's own data — for **39 African countries** through ~2010–2012, applying the within/structural-change decomposition to compare Africa's structural-change patterns with the rest of the developing world. This paper's sample (39 African countries via GGDC 10-Sector data) is the closest existing match to what this project's own 24-country African subsample would look like extended to the full GGDC country list — again, without a trade-agreement treatment variable.
+
+**Diao, X., McMillan, M., & Rodrik, D. (2017/2019). "The Recent Growth Boom in Developing Economies: A Structural-Change Perspective." NBER Working Paper 23132; also in the *Palgrave Handbook of Development Economics* (2019).**
+Extends the decomposition across Latin America, Africa, and South Asia, finding recent African growth accelerations were driven by growth-*enhancing* structural change but — unlike East Asia's industrialization-led growth — this came at the expense of *declining* within-sector productivity growth in Africa's more modern sectors, with the forces promoting structural change originating on the demand side (external transfers, rising agricultural incomes) rather than from trade or industrial policy. This "African paradox" (reallocation and within-sector upgrading working in *opposite* directions) is a specific, testable pattern this project can check against the North–South-PTA treatment: does entering a Northern agreement break this paradox by supporting within-sector upgrading in modern tradable sectors, or does it leave the paradox intact?
+
+**A country-level application of the McMillan–Rodrik decomposition to South Africa (Springer Nature, 2020 book chapter).**
+Applies the decomposition to a single African economy, confirming the method's applicability at the individual-African-country level, again without a trade-agreement treatment variable. Useful as a template for single-country validation exercises before scaling the analysis to the full African panel.
+
+### 2.7 Global value chains and North–South integration
+
+**Pahl, S., Timmer, M., Gouma, R., & Woltjer, P. (2022). "Jobs and Productivity Growth in Global Value Chains: New Evidence for Twenty-Five Low- and Middle-Income Countries." *The World Bank Economic Review*, 36(3), 670–686.**
+GGDC-affiliated work showing GVC-embedded jobs are systematically more productive than non-GVC jobs and that the *pace* of GVC expansion correlates with aggregate productivity growth, both across and within the (partly African) country sample. Shares data lineage with this project's own database.
+
+**"Global value chains and aggregate productivity growth in developing countries: the role of intra-sectoral allocation and structural change." *Review of World Economics*, 161(1), 89–119 (2024).**
+Panel fixed-effects and IV estimation on 46 developing countries decomposing GVC-driven productivity growth McMillan–Rodrik-style, finding effects present in Africa but strongest in Asia and Latin America — a further confirmation that the within/structural-change decomposition is the field's standard tool for exactly this kind of question, and a template IV strategy for trade-integration variables that could be adapted for PTA exposure.
+
+### 2.8 Econometric methods for estimating trade-agreement effects
+
+**Yotov, Y. V., Piermartini, R., Monteiro, J.-A., & Larch, M. (2016). *An Advanced Guide to Trade Policy Analysis: The Structural Gravity Model*. WTO/UNCTAD.**
+Standard reference for PPML gravity estimation with exporter–time/importer–time/pair fixed effects — relevant to the intermediate step of constructing a trade-flow-based PTA exposure measure, and to good-practice fixed-effects/clustering conventions.
+
+**Egger, P. H., Larch, M., & Yotov, Y. V. "Gravity-Model Estimation with Time-Interval Data: Revisiting the Impact of Free Trade Agreements."**
+Shows 3–5-year-interval gravity estimates resemble annual ones, while naive pooled annual panels can produce biased trade-cost elasticities — informs the choice of annual vs. interval frequency for the productivity panel (§6.3).
+
+**Sellner, R., & Yotov, Y. V., et al. (2023/24). "Staggered Difference-in-Differences in Gravity Settings: Revisiting the Effects of Trade Agreements." *American Economic Journal: Applied Economics*.** ★ *Method precedent*
+Shows standard panel gravity (two-way fixed effects, TWFE) estimates of RTA effects are biased — in their sample, downward by more than 50% — because of staggered treatment timing and heterogeneous treatment effects, fixed with an extended two-way-fixed-effects (ETWFE) estimator. Because African countries in this project's sample enter Northern PTAs in different years, this is the direct justification for a staggered-DiD estimator as the primary specification (§6.3.C), not a plain TWFE regression.
+
+**Callaway, B., & Sant'Anna, P. H. C. (2021). "Difference-in-Differences with Multiple Time Periods." *Journal of Econometrics*, 225(2), 200–230.**
+The general econometric foundation behind the gravity-specific paper above: with staggered timing, TWFE is a weighted average of comparisons that can carry *negative* weights, so a uniformly positive true effect can appear negative or badly mis-sized. Callaway–Sant'Anna instead estimate group-time average treatment effects against not-yet-treated units, aggregated into an overall or dynamic effect — the recommended default estimator here.
+
+---
+
+## 3. Papers closest to this project
+
+Ranked by closeness to the actual combination this project proposes (North–South PTA treatment × African sectoral productivity × McMillan–Rodrik decomposition):
+
+1. **de Vries, Timmer & de Vries (2015), "Structural Transformation in Africa: Static Gains, Dynamic Losses."** Same method, same African country set (overlapping with this project's own 24-country African subsample), same GGDC data lineage. Closest on *method and geography*; has no trade-agreement treatment variable at all.
+2. **Diao, Harttgen & McMillan (2017), "The Changing Structure of Africa's Economies."** Same decomposition method, same database family (GGDC 10-Sector), larger African sample (39 countries) closely matching this project's own coverage. Closest on *method and scale*; again, no trade-agreement variable.
+3. **Mulangu (2012, ACET), "Preferential Trade Agreements, Employment, and Productivity: Evidence from AGOA."** The only paper found here combining Africa, a North–South preference arrangement, and a productivity outcome. Closest on *substantive question*; but single-agreement, firm-level, and does not use the McMillan–Rodrik decomposition.
+4. **Diao, McMillan & Rodrik (2017/2019), "The Recent Growth Boom in Developing Economies."** Documents the specific African pattern (growth-enhancing reallocation paired with declining within-sector productivity in modern sectors) that a trade-agreement treatment could plausibly interact with or reverse. Closest on *generating a testable African-specific hypothesis* for the decomposition.
+5. **Neri-Lainé, Orefice & Ruta (2023), "Deep Trade Agreements and Heterogeneous Firms' Exports."** Not African-specific and not a productivity study, but closest on the *treatment side*: it operationalizes agreement depth as a firm/export outcome predictor and finds effects concentrated among GVC-connected firms — a heterogeneity result this project should expect to see echoed in which African sectors respond to PTA depth.
+
+No paper identified in this review sits at the intersection of all three elements simultaneously — that intersection is the gap this project addresses (§4).
+
+---
+
+## 4. Is there a significant gap in the literature? A direct assessment
+
+**Yes — based on the literature surveyed here, there is a clear and specific gap, though it is a gap of *combination* rather than of any single missing ingredient.** Each component of this project's design exists on its own:
+
+- Africa-specific McMillan–Rodrik-style decompositions exist and use the same GGDC data family this project holds (de Vries, Timmer & de Vries 2015; Diao, Harttgen & McMillan 2017; Diao, McMillan & Rodrik 2017) — but in every case reviewed, trade enters the analysis, if at all, as a broad "openness" control (e.g., trade as a share of GDP), never as a **trade-agreement treatment variable with its own entry-into-force timing**, and never distinguishing North–South from South–South agreements.
+- A North–South PTA/productivity literature exists and covers Africa in at least one case (Mulangu 2012 on AGOA) — but it is a single-agreement, firm-level case study, not a systematic panel covering the full set of African countries' agreements with the developed world (which the Baier–Bergstrand database, uniquely, makes possible), and it does not decompose productivity into within-sector vs. structural-change components.
+- The largest body of *African regional trade agreement* research (COMESA, SADC, ECOWAS trade-creation and growth studies) is explicitly South–South and stops at trade flows or aggregate GDP growth, not sectoral productivity, let alone its decomposition.
+- The methodological literature needed to estimate this credibly (staggered-DiD-robust estimators for non-randomly-timed agreement adoption) is mature and directly transferable (Sellner & Yotov; Callaway & Sant'Anna), but has not, on this evidence, been applied to an African sectoral-productivity outcome.
+
+Put together: **no paper found in this review measures whether developing African countries' entry into agreements with developed-world partners shifts the balance between within-sector productivity upgrading and structural (labor-reallocation) change, at the sector level, across the continent, using a systematic and depth-graded measure of agreement treatment.** That is a real and defensible gap, and it is precisely the question this project's data (GGDC sectoral productivity for ~24 African countries + Baier–Bergstrand's full bilateral PTA panel) and stated method (McMillan–Rodrik decomposition applied around PTA treatment) are positioned to fill. Two caveats are worth stating plainly: this is a literature *review*, not an exhaustive systematic search, so a working paper doing exactly this could exist unpublished or outside the sources searched here; and the gap is a gap in *combination*, so the project's contribution should be framed and defended as integrating and extending these adjacent literatures, not as introducing an entirely new method or dataset.
+
+---
+
+## 5. The data already in hand
+
+### 5.1 `Global-Productivity-Sectoral-Database.dta`
+
+Confirmed by direct inspection to be (or be built from) the **GGDC 10-Sector Database**: 103 countries, 1950–2017, 9 sectors plus a "Total" (Agriculture; Mining; Manufacturing; Utilities; Construction; Trade services; Transport services; Finance and business services; Other services), with `Value_added_nominal`, `Value_added_real`, `Employment`, `Labor_productivity_real`, and `Labor_productivity_PPP` per country–sector–year cell.
+
+**24 of the 103 countries are African**, giving this project a ready-made African panel without needing a new data pull: Algeria, Angola, Botswana, Burkina Faso, Cameroon, Egypt, Eswatini, Ethiopia, Ghana, Kenya, Lesotho, Malawi, Mauritius, Morocco, Mozambique, Namibia, Nigeria, Rwanda, Senegal, Sierra Leone, South Africa, Tanzania, Uganda, and Zambia. This spans Sub-Saharan and North African economies, oil/resource exporters (Algeria, Angola, Nigeria) and diversified manufacturers (South Africa, Mauritius, Kenya), giving real cross-sectional variation for the heterogeneity analysis in §6.3.D.
+
+### 5.2 Complementary or extension databases worth adding
+
+| Purpose | Candidate source |
+|---|---|
+| Longer/deeper Africa-specific coverage (1960 onward, gender-split employment) | **GGDC Africa Sector Database** (de Vries, Timmer & de Vries 2015) — 11 SSA countries, likely overlapping this project's core African subsample |
+| Broader Africa coverage matching Diao, Harttgen & McMillan (2017) | Their 39-country African GGDC-derived panel, if a replication file is available |
+| Extend past 2017 / fill sector gaps | UNIDO INDSTAT2 (manufacturing, to 2021) |
+| Agreement *depth/content* by policy area | Mattoo–Rocha–Ruta *Content of Deep Trade Agreements* database |
+| Specific EU–Africa agreement variables (EPAs, GSP+, prior Cotonou/Lomé arrangements) | European Commission DG Trade agreement texts; the EU–SADC/EU–ACP EPA empirical literature (§2.5) as a coding cross-check |
+| Bilateral trade flows for exposure weighting | CEPII BACI or UN Comtrade |
+| GVC participation | ADB Multi-Regional Input-Output tables or UNCTAD-Eora26 (better African coverage than OECD TiVA) |
+| Standard controls | World Bank WDI, Barro–Lee schooling, Worldwide Governance Indicators |
+
+### 5.3 A data-alignment issue to resolve early
+
+The GGDC file and the Baier–Bergstrand database both nominally end around 2017, so the analysis window as currently scoped **cannot include AfCFTA implementation (2021 onward)** — arguably the single most important recent African trade-policy event, though notably South–South rather than North–South and thus outside this project's core scope anyway. It can, however, capture the EU's EPAs with SADC, ECOWAS, and East African states as they entered into force through the 2010s, plus AGOA and its renewals. The actual downloaded Baier–Bergstrand file's year range (the site references a "most recent version from July 2021") should be confirmed directly rather than assumed.
+
+---
+
+## 6. Proposed methodology
+
+### 6.1 Conceptual framework
+
+Following §2.2–2.3 and §2.6, a Northern PTA can move African sectoral productivity through: (i) **market access** (export demand from the Northern partner), (ii) **input access** (cheaper/better intermediate goods and capital equipment — the strongest single channel per Amiti–Konings), (iii) **competition/reallocation** (import competition reallocating resources toward more productive domestic producers, per Melitz and Topalova–Khandelwal), and (iv) **regulatory/deep-agreement channels** specific to services, investment, and standards provisions (per Neri-Lainé, Orefice & Ruta). Crucially, per Diao, McMillan & Rodrik's "African paradox," reallocation and within-sector upgrading do not necessarily move together in Africa — a PTA could plausibly support one while leaving the other unchanged, which is exactly what the decomposition in §6.3 is designed to detect.
+
+### 6.2 Sample and variable construction
+
+1. **Restrict the country sample to the 24 African countries identified in §5.1** (extending to the larger Diao–Harttgen–McMillan-style 39-country African panel or the GGDC Africa Sector Database if broader coverage is obtained).
+2. **Classify each African country's trading partners into "Northern" (developed) vs. other**, using a fixed-vintage World Bank/IMF advanced-economies list.
+3. **Collapse the Baier–Bergstrand bilateral panel into a country-level "Northern PTA exposure" series** for each African country, in one of three variants: (a) binary — any agreement (FTA-or-deeper, i.e., level ≥3) in force with a Northern partner; (b) intensity — count of Northern partners with an agreement, or maximum/average depth score; (c) trade- or GDP-weighted exposure, requiring bilateral trade data (BACI/Comtrade) as an additional input.
+4. **Merge onto the African country–sector–year panel** by country and year.
+5. **Outcome variables**: log `Labor_productivity_real` (within-country growth specifications) and log `Labor_productivity_PPP` (cross-country level/convergence specifications); `Value_added_real` and `Employment` shares by sector retained separately as the direct inputs to the decomposition in §6.3.
+
+### 6.3 The McMillan–Rodrik decomposition, and how trade agreements enter it
+
+This is the confirmed core method. For each country and interval (t−k to t), aggregate labor productivity growth decomposes as:
+
+```
+ΔP_t = Σ_i θ_i,(t−k) · Δp_i,t     +     Σ_i Δθ_i,t · p_i,(t−k)
+        \_____________________/          \___________________/
+           within-sector term               structural-change
+                                             (reallocation) term
+```
+
+where `P` is economy-wide labor productivity, `θ_i` is sector *i*'s employment share, and `p_i` is sector *i*'s labor productivity (both directly available in the GGDC data, §5.1). Following Diao, McMillan & Rodrik (2017), a three-term dynamic version that also captures the covariance between sectoral productivity growth and employment-share growth can be used as a robustness check against the two-term "static" version used by de Vries, Timmer & de Vries (2015).
+
+**Applying the trade-agreement variable to the decomposition — two complementary designs:**
+
+- **(A) Component-level panel regressions.** Compute `Δp_i,t` (within) and the reallocation term country-by-country over short (e.g., 3–5 year, per Egger–Larch–Yotov) intervals, then run the *same* staggered-DiD specification twice — once with the within-sector component as the outcome, once with the structural-change component — against the Northern-PTA-exposure variable. This directly tests whether a Northern PTA operates by raising within-sector productivity growth, by pulling labor toward higher-productivity tradable sectors, by both, or by neither (i.e., whether it breaks or reinforces the Diao–McMillan–Rodrik "African paradox").
+- **(B) Pre/post event windows around each country's PTA entry.** For each African country, compute the full decomposition separately for the period before and after its first Northern-PTA entry-into-force date, and compare the within-sector and structural-change shares of total productivity growth across the two periods, benchmarked against not-yet-treated African countries in the same calendar years (avoiding the "never-treated" comparison-group problem flagged in §2.8).
+
+**Estimating equation for the component regressions**, paralleling the baseline in §6.4 but with the decomposition components as outcomes:
+
+```
+Within_c,t   = β_W · PTA_North_c,t + γ_c + δ_t + ε_c,t
+Structural_c,t = β_S · PTA_North_c,t + γ_c + δ_t + ε_c,t
+```
+with country and year fixed effects, estimated first by TWFE as a baseline and then by a staggered-adoption-robust estimator (Callaway–Sant'Anna or the ETWFE approach of Sellner & Yotov) as the primary specification, given the staggered timing of African countries' Northern-PTA entry.
+
+### 6.4 Empirical strategy for the underlying sector-level productivity regressions
+
+**A. Descriptive event-study plots** of sectoral productivity around each country's first Northern-PTA entry, before any regression — the fastest check on pre-trends.
+
+**B. Baseline two-way fixed-effects panel regression**, run as a comparison baseline only, given §2.8's bias warning:
+```
+ln(LaborProductivity_cst) = β · PTA_North_ct + γ_cs + δ_st + ε_cst
+```
+country–sector fixed effects (γ_cs), sector–year fixed effects (δ_st), standard errors clustered by country.
+
+**C. Staggered-adoption-robust estimator (primary specification)**, using not-yet-treated African countries as the comparison group, aggregated into an overall ATT and a dynamic event-study profile.
+
+**D. Heterogeneity analysis** by sector tradability (manufacturing/tradable services vs. agriculture/mining vs. non-tradable services) and by agreement depth (Mattoo–Rocha–Ruta score), and — given the African sample's split between resource exporters and diversified manufacturers (§5.1) — by whether the country is a natural-resource exporter, directly testing the McMillan–Rodrik "enclave sector" hypothesis against the PTA treatment.
+
+**E. Endogeneity checks**: control for the Baier–Bergstrand gravity determinants (size, similarity, distance); test for pre-trends via leads of treatment; consider a synthetic-control exercise for a small number of prominent single-country cases (as exists for AGOA); consider third-country PTA network exposure as an instrument (per Baier, Bergstrand & Feng 2014).
+
+### 6.5 Suggested control variables
+
+GDP per capita and growth; human capital (years of schooling); FDI inflows; institutional quality (WGI); real effective exchange rate; natural-resource export share (flagged by McMillan–Rodrik as suppressing growth-enhancing structural change); initial (pre-treatment) sectoral productivity level; and, as an extension, a GVC-participation measure to test whether Northern PTAs work partly *through* deepening GVC integration (§2.7).
+
+### 6.6 Practical sequencing
+
+1. Confirm the actual year range of the downloaded Baier–Bergstrand file; extract the 24-country African subsample identified in §5.1 and check overlap/coverage against de Vries–Timmer–de Vries's 11-country Africa Sector Database and Diao–Harttgen–McMillan's 39-country sample.
+2. Build the Northern-PTA-exposure variable (three variants, §6.2 step 3) for these countries; compare them for robustness.
+3. Run the McMillan–Rodrik decomposition on the African panel *without* any trade variable first, to replicate de Vries–Timmer–de Vries / Diao–Harttgen–McMillan as a sanity check that the pipeline is correct.
+4. Run the descriptive event-study plots (§6.4.A) — the fastest way to learn whether the design is viable before investing in depth-coding or bilateral-trade-weighting extensions.
+5. Estimate the component regressions (§6.3.A) and the sector-level regressions (§6.4.B/C) in parallel; compare TWFE vs. staggered-DiD estimates directly, replicating the Sellner–Yotov bias finding in this project's own African sample.
+6. Add heterogeneity (§6.4.D) and endogeneity checks (§6.4.E/§6.3.B) once the baseline is stable.
+
+---
+
+## 7. Candidate research questions / hypotheses
+
+1. African countries that enter agreements with developed-world partners see faster sectoral labor productivity growth than otherwise-similar African countries that do not, concentrated in manufacturing and tradable services rather than agriculture or mining.
+2. The productivity effect increases with agreement depth (services/investment/IP/standards provisions), not just tariff liberalization.
+3. A Northern PTA shifts the *composition* of African productivity growth toward the within-sector component and away from the structural-change component — i.e., it induces genuine upgrading in tradable sectors rather than merely reallocating labor toward marginally higher-productivity but low-dynamism sectors (directly testing the "static gains, dynamic losses" pattern documented by de Vries, Timmer & de Vries).
+4. The reallocation (structural-change) benefit of a Northern PTA is muted or absent in natural-resource-exporting African countries, consistent with McMillan–Rodrik's "enclave sector" mechanism.
+5. Naive TWFE panel estimates of the Northern-PTA effect on African sectoral productivity are biased relative to staggered-adoption-robust estimates, replicating Sellner & Yotov's gravity-context finding in this project's own sample.
+6. The productivity payoff to a Northern PTA is larger, and more likely to appear as within-sector upgrading rather than mere reallocation, in African countries with higher initial human capital and institutional quality.
+
+---
+
+## 8. References
+
+Amiti, M., & Konings, J. (2007). Trade Liberalization, Intermediate Inputs, and Productivity: Evidence from Indonesia. *American Economic Review*, 97(5), 1611–1638.
+
+Baier, S. L., & Bergstrand, J. H. (2004). Economic Determinants of Free Trade Agreements. *Journal of International Economics*, 64(1), 29–63.
+
+Baier, S. L., & Bergstrand, J. H. (2007). Do Free Trade Agreements Actually Increase Members' International Trade? *Journal of International Economics*, 71(1), 72–95.
+
+Baier, S. L., Bergstrand, J. H., & Feng, M. (2014). Economic Determinants of Free Trade Agreements Revisited: Distinguishing Sources of Interdependence. *Review of International Economics*, 22(1), 31–58.
+
+Bergstrand, J. H., & Baier, S. L. NSF–Kellogg Institute Database on Economic Integration Agreements. https://sites.nd.edu/jeffrey-bergstrand/database-on-economic-integration-agreements/
+
+Callaway, B., & Sant'Anna, P. H. C. (2021). Difference-in-Differences with Multiple Time Periods. *Journal of Econometrics*, 225(2), 200–230.
+
+Choudhri, E. U., & Hakura, D. S. International Trade and Productivity Growth: Exploring the Sectoral Effects for Developing Countries. IMF Working Paper.
+
+De Loecker, J. (2007). Do Exports Generate Higher Productivity? Evidence from Slovenia. *Journal of International Economics*, 73(1), 69–98.
+
+De Loecker, J. (2013). Detecting Learning by Exporting. *American Economic Journal: Microeconomics*, 5(3), 1–21.
+
+de Vries, G., Timmer, M., & de Vries, K. (2015). Structural Transformation in Africa: Static Gains, Dynamic Losses. *The Journal of Development Studies*, 51(6), 674–688.
+
+Diao, X., Harttgen, K., & McMillan, M. (2017). The Changing Structure of Africa's Economies. *The World Bank Economic Review*, 31(2), 412–433. (Also NBER Working Paper 23021 / World Bank Policy Research Working Paper 7958.)
+
+Diao, X., McMillan, M., & Rodrik, D. (2017/2019). The Recent Growth Boom in Developing Economies: A Structural-Change Perspective. NBER Working Paper 23132; reprinted in the *Palgrave Handbook of Development Economics* (2019).
+
+Egger, P. H., Larch, M., & Yotov, Y. V. Gravity-Model Estimation with Time-Interval Data: Revisiting the Impact of Free Trade Agreements.
+
+Mattoo, A., Rocha, N., & Ruta, M. (Eds.) (2020). *Handbook of Deep Trade Agreements*. World Bank.
+
+McMillan, M., & Rodrik, D. (2011). Globalization, Structural Change and Productivity Growth. NBER Working Paper 17143.
+
+McMillan, M., Rodrik, D., & Verduzco-Gallo, Í. (2014). Globalization, Structural Change, and Productivity Growth, with an Update on Africa. *World Development*, 63, 11–32.
+
+Melitz, M. J. (2003). The Impact of Trade on Intra-Industry Reallocations and Aggregate Industry Productivity. *Econometrica*, 71(6), 1695–1725.
+
+Mulangu, F. M. (2012). Preferential Trade Agreements, Employment, and Productivity: Evidence from AGOA. ACET Working Paper.
+
+Neri-Lainé, M., Orefice, G., & Ruta, M. (2023). Deep Trade Agreements and Heterogeneous Firms' Exports. World Bank Policy Research Working Paper 10277.
+
+Pahl, S., Timmer, M., Gouma, R., & Woltjer, P. (2022). Jobs and Productivity Growth in Global Value Chains: New Evidence for Twenty-Five Low- and Middle-Income Countries. *The World Bank Economic Review*, 36(3), 670–686.
+
+Global value chains and aggregate productivity growth in developing countries: the role of intra-sectoral allocation and structural change. (2024). *Review of World Economics*, 161(1), 89–119.
+
+Sellner, R., & Yotov, Y. V., et al. Staggered Difference-in-Differences in Gravity Settings: Revisiting the Effects of Trade Agreements. *American Economic Journal: Applied Economics*.
+
+Timmer, M. P., de Vries, G. J., & de Vries, K. (2015). Patterns of Structural Change in Developing Countries. GGDC Research Memorandum GD-149, University of Groningen.
+
+Yotov, Y. V., Piermartini, R., Monteiro, J.-A., & Larch, M. (2016). *An Advanced Guide to Trade Policy Analysis: The Structural Gravity Model*. WTO/UNCTAD.
