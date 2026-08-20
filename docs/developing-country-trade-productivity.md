@@ -151,22 +151,26 @@ Confirmed by direct inspection to be (or be built from) the **GGDC 10-Sector Dat
 
 **24 of the 103 countries are African**, giving this project a ready-made African panel without needing a new data pull: Algeria, Angola, Botswana, Burkina Faso, Cameroon, Egypt, Eswatini, Ethiopia, Ghana, Kenya, Lesotho, Malawi, Mauritius, Morocco, Mozambique, Namibia, Nigeria, Rwanda, Senegal, Sierra Leone, South Africa, Tanzania, Uganda, and Zambia. This spans Sub-Saharan and North African economies, oil/resource exporters (Algeria, Angola, Nigeria) and diversified manufacturers (South Africa, Mauritius, Kenya), giving real cross-sectional variation for the heterogeneity analysis in §6.3.D.
 
-### 5.2 Complementary or extension databases worth adding
+### 5.2 The year-limit problem, and alternative/extension datasets
+
+Both core sources nominally stop around 2017, which cuts the analysis window off just before AfCFTA (South–South, so outside core scope regardless), most CPTPP/USMCA-era agreements, and a few years of GGDC/EU-EPA-related PTA activity. Rather than treat this as fixed, three actively maintained alternatives are worth evaluating before finalizing the sample window — one on the productivity side, two on the trade-agreement side.
+
+**Sectoral productivity — the GGDC/UNU-WIDER Economic Transformation Database (ETD) is the strongest single alternative.** It is the direct successor to the GGDC 10-Sector Database this project already holds (produced by the same Groningen team, now jointly with UNU-WIDER), covers **51 countries — including 18 Sub-Saharan African and 4 North African/Middle Eastern countries, i.e., a comparable or larger African set than the current 24-country subsample — for 1990–2018, at 12 sectors instead of 9**, and was last updated in September 2023 (so it is being actively maintained, not a frozen legacy product). The extra year (2018 vs. 2017) is modest, but the finer sector split, broader and more current country list, and explicit design for structural-change research make it worth reconciling against the current file rather than treating as a separate afterthought — some countries or years may be available in one but not the other. Two further options, useful mainly as robustness checks rather than primary extensions: the **Expanded Africa Sector Database (EASD)** (Mensah & Szirmai, 2018) covers 18 African economies (≈80% of Sub-Saharan African GDP) from the 1960s to 2015, adding seven countries (Burkina Faso, Cameroon, Lesotho, Mozambique, Namibia, Rwanda, Uganda) beyond the original Africa Sector Database — still short of the 2017/2018 endpoint, but a useful cross-check on employment/value-added series; and **UNIDO INDSTAT2**, manufacturing-only but running to 2021, for extending the manufacturing sector specifically past 2018 if the analysis needs to reach the most recent years.
+
+**Trade agreements — two alternatives can extend or cross-validate Baier–Bergstrand.** The **WTO's own Regional Trade Agreements Database (RTA-IS)** is the authoritative, continuously updated record of every agreement notified to the WTO, including exact entry-into-force dates (e.g., it records AfCFTA's legal entry into force as 30 May 2019, ahead of the January 2021 start of trading) — it lacks Baier–Bergstrand's/DESTA's depth coding but is the right source for confirming or extending PTA *timing* past 2017. The **DESTA (Design of Trade Agreements) database** (Dür, Baccini & Elsig) is a strong alternative or complement for *depth*: it covers 846 PTAs signed since 1945 with detailed content coding for 646 of them across 100+ design items, and its most recent public version is dated September 2025 — appreciably more current metadata than Baier–Bergstrand's, though the fine-grained design-feature coding itself is reported (per its own codebook) to run through roughly 2019, which should be confirmed directly before relying on it for later years. The Mattoo–Rocha–Ruta *Content of Deep Trade Agreements* database (§2.1) is also periodically updated beyond its original 2020 Handbook vintage and should be checked for its current end year.
+
+### 5.3 Complementary databases for controls and mechanisms
 
 | Purpose | Candidate source |
 |---|---|
-| Longer/deeper Africa-specific coverage (1960 onward, gender-split employment) | **GGDC Africa Sector Database** (de Vries, Timmer & de Vries 2015) — 11 SSA countries, likely overlapping this project's core African subsample |
-| Broader Africa coverage matching Diao, Harttgen & McMillan (2017) | Their 39-country African GGDC-derived panel, if a replication file is available |
-| Extend past 2017 / fill sector gaps | UNIDO INDSTAT2 (manufacturing, to 2021) |
-| Agreement *depth/content* by policy area | Mattoo–Rocha–Ruta *Content of Deep Trade Agreements* database |
-| Specific EU–Africa agreement variables (EPAs, GSP+, prior Cotonou/Lomé arrangements) | European Commission DG Trade agreement texts; the EU–SADC/EU–ACP EPA empirical literature (§2.5) as a coding cross-check |
 | Bilateral trade flows for exposure weighting | CEPII BACI or UN Comtrade |
 | GVC participation | ADB Multi-Regional Input-Output tables or UNCTAD-Eora26 (better African coverage than OECD TiVA) |
+| Specific EU–Africa agreement variables (EPAs, GSP+, prior Cotonou/Lomé arrangements) | European Commission DG Trade agreement texts; the EU–SADC/EU–ACP EPA empirical literature (§2.5) as a coding cross-check |
 | Standard controls | World Bank WDI, Barro–Lee schooling, Worldwide Governance Indicators |
 
-### 5.3 A data-alignment issue to resolve early
+### 5.4 A data-alignment issue to resolve early
 
-The GGDC file and the Baier–Bergstrand database both nominally end around 2017, so the analysis window as currently scoped **cannot include AfCFTA implementation (2021 onward)** — arguably the single most important recent African trade-policy event, though notably South–South rather than North–South and thus outside this project's core scope anyway. It can, however, capture the EU's EPAs with SADC, ECOWAS, and East African states as they entered into force through the 2010s, plus AGOA and its renewals. The actual downloaded Baier–Bergstrand file's year range (the site references a "most recent version from July 2021") should be confirmed directly rather than assumed.
+Given §5.2, the practical recommendation is to **rebuild the core panel on the ETD (1990–2018, richer African coverage) rather than the original GGDC 10-Sector file**, cross-check PTA timing against the WTO RTA-IS database to catch anything the Baier–Bergstrand vintage misses between 2017 and 2018, and treat DESTA as the fallback for depth-coding if the Mattoo–Rocha–Ruta database's own end year turns out to be no later. Even with these upgrades, the window still stops around 2018–2019 and so still cannot capture AfCFTA — which, again, is South–South and outside this project's core North–South scope regardless. The actual downloaded Baier–Bergstrand file's year range (the site references a "most recent version from July 2021") should still be confirmed directly rather than assumed, since it may already extend past 2017 despite older documentation.
 
 ---
 
@@ -278,9 +282,15 @@ Diao, X., Harttgen, K., & McMillan, M. (2017). The Changing Structure of Africa'
 
 Diao, X., McMillan, M., & Rodrik, D. (2017/2019). The Recent Growth Boom in Developing Economies: A Structural-Change Perspective. NBER Working Paper 23132; reprinted in the *Palgrave Handbook of Development Economics* (2019).
 
+Dür, A., Baccini, L., & Elsig, M. (2014). The Design of International Trade Agreements: Introducing a New Dataset. *The Review of International Organizations*, 9(3), 353–375. Database: https://www.designoftradeagreements.org/
+
 Egger, P. H., Larch, M., & Yotov, Y. V. Gravity-Model Estimation with Time-Interval Data: Revisiting the Impact of Free Trade Agreements.
 
+Groningen Growth and Development Centre & UNU-WIDER. Economic Transformation Database (ETD): content, sources, and methods. University of Groningen. https://www.rug.nl/ggdc/structuralchange/etd/
+
 Mattoo, A., Rocha, N., & Ruta, M. (Eds.) (2020). *Handbook of Deep Trade Agreements*. World Bank.
+
+Mensah, E. B., & Szirmai, A. (2018). Africa Sector Database (ASD): Expansion and Update. UNU-MERIT Working Paper 2018-020.
 
 McMillan, M., & Rodrik, D. (2011). Globalization, Structural Change and Productivity Growth. NBER Working Paper 17143.
 
@@ -299,5 +309,7 @@ Global value chains and aggregate productivity growth in developing countries: t
 Sellner, R., & Yotov, Y. V., et al. Staggered Difference-in-Differences in Gravity Settings: Revisiting the Effects of Trade Agreements. *American Economic Journal: Applied Economics*.
 
 Timmer, M. P., de Vries, G. J., & de Vries, K. (2015). Patterns of Structural Change in Developing Countries. GGDC Research Memorandum GD-149, University of Groningen.
+
+World Trade Organization. Regional Trade Agreements Database (RTA-IS). https://rtais.wto.org/
 
 Yotov, Y. V., Piermartini, R., Monteiro, J.-A., & Larch, M. (2016). *An Advanced Guide to Trade Policy Analysis: The Structural Gravity Model*. WTO/UNCTAD.
