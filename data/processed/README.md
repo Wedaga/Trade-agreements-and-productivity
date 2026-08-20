@@ -1,6 +1,11 @@
 # Processed data
 
-Outputs of [`notebooks/01_clean_trade_agreements.ipynb`](../../notebooks/01_clean_trade_agreements.ipynb), which builds the African–Northern trade-agreement panel described in `docs/developing-country-trade-productivity.md` §5–§6. Re-run that notebook to regenerate these files from the raw source in `data/baier-bergstrand/`.
+Outputs of two notebooks, run in order:
+
+1. [`notebooks/01_clean_trade_agreements.ipynb`](../../notebooks/01_clean_trade_agreements.ipynb) — builds the African–Northern trade-agreement panel described in `docs/developing-country-trade-productivity.md` §5–§6, from the raw source in `data/baier-bergstrand/`.
+2. [`notebooks/02_clean_cepii_gravity.ipynb`](../../notebooks/02_clean_cepii_gravity.ipynb) — builds the trade- and GDP-weighted exposure variables (methodology doc §6.2 step 5), from the raw source in `data/cepii-gravity/`, and merges them onto notebook 1's country–year panel.
+
+Re-run both notebooks in order to regenerate all four files below from their raw sources.
 
 ## `baier_bergstrand_africa_northern_country_year.csv`
 
@@ -33,3 +38,30 @@ The intermediate bilateral panel this is built from: one row per (African countr
 | `year` | 1950–2017 |
 | `level` | Baier–Bergstrand integration level (0–6), collapsed from the two directional rows by taking the max — see the notebook for why this is the economically correct collapse rule for this project (non-reciprocal preferences are directional; reciprocal levels already agree in both directions) |
 | `not_yet_country` | Whether either direction was `NoCty` |
+
+## `trade_agreements_with_exposure_country_year.csv`
+
+`baier_bergstrand_africa_northern_country_year.csv` (all columns above) plus the trade- and GDP-weighted exposure variables built in `notebooks/02_clean_cepii_gravity.ipynb` from the CEPII Gravity dataset. This is the more complete of the two country–year files — prefer it over the Baier–Bergstrand-only version for any analysis that wants the weighted exposure measures.
+
+| Column | Meaning |
+|---|---|
+| `trade_total_northern` | Total bilateral trade (IMF DOTS, mirror-averaged, both directions summed) with all 36 Northern partners that year, in thousands of current USD. `NaN` if no partner has any trade data that year (a true missing-data case), not `0`. |
+| `trade_reciprocal_northern` | Of that total, the portion with partners at `reciprocal` (level ≥ 2) status. Correctly `0` (not `NaN`) when zero partners are reciprocal that year — see the caveat below. |
+| `reciprocal_trade_share` | `trade_reciprocal_northern / trade_total_northern` — the trade-weighted exposure measure, in `[0, 1]`. ~91.4% non-null (missing where `trade_total_northern` is missing). |
+| `gdp_total_northern`, `gdp_reciprocal_northern`, `reciprocal_gdp_share` | Same construction, weighted by Northern partners' GDP instead of bilateral trade. 100% non-null — prefer this measure where full-sample coverage matters more than trade-value precision. |
+| `n_reciprocal_partners`, `n_partners_trade_available` | Diagnostic counts: how many Northern partners were at reciprocal status, and how many had non-missing trade data, that year. |
+
+**Why weighting was needed at all, and why it sidesteps the EU-multiplicity caveat above:** `reciprocal` and `depth_score` both take a *maximum* across partners, so they can't distinguish an agreement with an economically massive partner (the EU) from one with a negligible partner (Malta alone), and a naive partner *count* is structurally inflated by the EU's 23 member states being coded as 23 identical rows. Weighting by real bilateral trade value (or GDP) fixes both at once: each EU member still contributes its own real, distinct trade/GDP figure, so there is no double-counting to correct for — see methodology doc §6.2 step 5.
+
+**A data-quality note carried over from the notebook**: CEPII's `country_exists` flag is slightly stricter than Baier–Bergstrand's own coding for seven Northern partners in their pre-independence years (Czechoslovakia's 1993 split, the Baltic states' and Slovenia's 1991 independence, Singapore's 1965 independence) — this only narrows the weighting denominators in those specific partner-years, and does not affect `reciprocal`/`depth_score`/`fta_or_deeper`/`nonreciprocal_only`, which come entirely from `baier_bergstrand_africa_northern_country_year.csv`.
+
+## `cepii_gravity_africa_northern_bilateral.csv`
+
+The intermediate bilateral panel `trade_agreements_with_exposure_country_year.csv` is built from: one row per (African country, Northern partner, year), 52,392 rows (fewer than the Baier–Bergstrand bilateral file's 58,752 — see the existence-flag note above). Kept for future extensions that need partner-level trade/GDP detail.
+
+| Column | Meaning |
+|---|---|
+| `african_iso3`, `northern_iso3`, `year` | As above |
+| `trade_imf` | Bilateral trade (IMF DOTS, mirror-averaged across the two directional rows, both directions summed), thousands of current USD. `NaN` (not `0`) where no direction has data. |
+| `trade_imf_n_directions` | 0, 1, or 2 — how many of the two directional flows contributed a non-missing value. |
+| `gdp_northern`, `gdp_ppp_northern` | The Northern partner's own GDP that year (current USD and PPP-adjusted). |

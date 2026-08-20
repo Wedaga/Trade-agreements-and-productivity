@@ -1,0 +1,7 @@
+# Large raw source files excluded from git (GitHub's 100 MB per-file limit).
+# See data/cepii-gravity/README.md and data/baier-bergstrand/README.md for what's
+# excluded from each source and how to re-obtain it.
+data/cepii-gravity/Gravity_V202211.csv
+data/cepii-gravity/*.zip
+data/baier-bergstrand/*Stata*.dta
+data/baier-bergstrand/PDF Files/
