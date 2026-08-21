@@ -279,7 +279,9 @@ country–sector fixed effects (γ_cs), sector–year fixed effects (δ_st), sta
 
 ### 6.5 Suggested control variables
 
-GDP per capita and growth; human capital (years of schooling); FDI inflows; institutional quality (WGI); real effective exchange rate; natural-resource export share (flagged by McMillan–Rodrik as suppressing growth-enhancing structural change); initial (pre-treatment) sectoral productivity level; and, as an extension, a GVC-participation measure to test whether Northern PTAs work partly *through* deepening GVC integration (§2.7).
+GDP per capita and growth; human capital (years of schooling); FDI inflows; institutional quality (WGI); real effective exchange rate; natural-resource export share (flagged by McMillan–Rodrik as suppressing growth-enhancing structural change); initial (pre-treatment) sectoral productivity level; and, as an extension, a GVC-participation measure to test whether Northern PTAs work partly *through* deepening GVC integration (§2.7). Also worth controlling for: the African country's own WTO/GATT accession status, since its timing could otherwise be confounded with `Reciprocal_c,t`.
+
+**Partially done**: GDP per capita, population, and WTO/GATT membership are now built directly into `data/processed/trade_agreements_with_exposure_country_year.csv` (`notebooks/02_clean_cepii_gravity.ipynb` §7), sourced from CEPII Gravity's own WDI/Barbieri/Maddison/PWT-based fields. Still to be merged in from external sources: human capital, FDI, WGI institutional quality, real effective exchange rate, natural-resource export share, and GVC participation.
 
 ### 6.6 Practical sequencing
 

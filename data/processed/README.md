@@ -55,6 +55,18 @@ The intermediate bilateral panel this is built from: one row per (African countr
 
 **A data-quality note carried over from the notebook**: CEPII's `country_exists` flag is slightly stricter than Baier–Bergstrand's own coding for seven Northern partners in their pre-independence years (Czechoslovakia's 1993 split, the Baltic states' and Slovenia's 1991 independence, Singapore's 1965 independence) — this only narrows the weighting denominators in those specific partner-years, and does not affect `reciprocal`/`depth_score`/`fta_or_deeper`/`nonreciprocal_only`, which come entirely from `baier_bergstrand_africa_northern_country_year.csv`.
 
+**Own-country control variables** (added for the future regression stage — methodology doc §6.5 — rather than for the exposure calculation itself):
+
+| Column | Meaning |
+|---|---|
+| `gdp_african`, `gdpcap_african` | The African country's own GDP and GDP per capita, current thousands USD (WDI, backfilled with Barbieri for years before WDI's 1960 start). ~81% non-null across 1950–2017. |
+| `gdp_ppp_african`, `gdpcap_ppp_african` | PPP-adjusted versions of the same (current international $, WDI only — not backfilled). Only ~41% non-null; prefer the non-PPP versions above for full-sample work. |
+| `pop_african` | Population, thousands (WDI, backfilled with Maddison). 100% non-null. |
+| `pop_pwt_african`, `gdp_ppp_pwt_african` | Alternate-source (Penn World Table) population and PPP GDP — a cross-check against the WDI-based versions above, not a preferred default. ~87% non-null. |
+| `wto_african`, `gatt_african` | 1/0 WTO and GATT membership dummies. 100% non-null; validated against South Africa's known 1995 WTO accession (switches 0→1 exactly that year) and its GATT membership since 1948 (constant 1 throughout). |
+
+None of these were checked cell-by-cell the way the trade/exposure variables were (see the notebook's own §12 caveat) — spot-check before leaning on them heavily in a regression.
+
 ## `cepii_gravity_africa_northern_bilateral.csv`
 
 The intermediate bilateral panel `trade_agreements_with_exposure_country_year.csv` is built from: one row per (African country, Northern partner, year), 52,392 rows (fewer than the Baier–Bergstrand bilateral file's 58,752 — see the existence-flag note above). Kept for future extensions that need partner-level trade/GDP detail.

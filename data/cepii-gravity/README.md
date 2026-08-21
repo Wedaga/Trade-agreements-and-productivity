@@ -51,7 +51,11 @@ Stata files (`data/baier-bergstrand/README.md`).
   (CEPII's own reconciled BACI flow, from 1996 only). The `_o`/`_d` suffix on the
   IMF/Comtrade fields distinguishes the flow *as reported by the origin* from the same
   flow *as reported by the destination* (mirror statistics, which routinely disagree)
-  — the notebook averages the two.
+  — the notebook averages the two. Also used, on the African-country side only, as
+  regression-stage controls rather than for the exposure calculation itself:
+  `gdpcap_o`/`_d`, `pop_o`/`_d` (WDI, backfilled with Maddison for population),
+  `pop_pwt_o`/`_d`/`gdp_ppp_pwt_o`/`_d` (Penn World Table alternates), and the
+  unilateral `wto_o`/`_d`/`gatt_o`/`_d` membership dummies.
 - **Non-null coverage within this project's 1950–2017 window**, among the
   African↔Northern pairs actually used: `tradeflow_imf` ~62–64% per direction, `gdp`
   ~90%. This confirms IMF DOTS as the right primary trade source for a study that
