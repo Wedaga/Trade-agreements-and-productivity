@@ -4,9 +4,9 @@ Outputs of three notebooks:
 
 1. [`notebooks/01_clean_trade_agreements.ipynb`](../../notebooks/01_clean_trade_agreements.ipynb) — builds the African–Northern trade-agreement panel described in `docs/developing-country-trade-productivity.md` §5–§6, from the raw source in `data/baier-bergstrand/`.
 2. [`notebooks/02_clean_cepii_gravity.ipynb`](../../notebooks/02_clean_cepii_gravity.ipynb) — builds the trade- and GDP-weighted exposure variables (methodology doc §6.2 step 5), from the raw source in `data/cepii-gravity/`, and merges them onto notebook 1's country–year panel. Run after notebook 1.
-3. [`notebooks/03_clean_ggdc_productivity.ipynb`](../../notebooks/03_clean_ggdc_productivity.ipynb) — aggregates the 9-sub-sector GGDC productivity panel down to Agriculture/Manufacturing/Services, from the raw source `data/Global-Productivity-Sectoral-Database.dta`. Independent of notebooks 1–2 (different source, not yet merged with the trade-agreement panel).
+3. [`notebooks/03_clean_ggdc_productivity.ipynb`](../../notebooks/03_clean_ggdc_productivity.ipynb) — aggregates the 9-sub-sector GGDC productivity panel down to Agriculture/Manufacturing/Services, from the raw source `data/Global-Productivity-Sectoral-Database.dta`, then runs the McMillan & Rodrik (2011) productivity decomposition on the result (methodology doc §6.3). Independent of notebooks 1–2 (different source, not yet merged with the trade-agreement panel).
 
-Re-run in order (1 before 2; 3 is independent) to regenerate the five files below from their raw sources.
+Re-run in order (1 before 2; 3 is independent) to regenerate the seven files below from their raw sources.
 
 ## `baier_bergstrand_africa_northern_country_year.csv`
 
@@ -106,3 +106,39 @@ The one detail worth flagging because it's easy to guess wrong: **utilities go w
 **Data-quality notes**: Namibia (1960–1964) and Botswana (1964–1967) have a handful of country-years with at least one missing sub-sector, which propagate as genuine `NaN` (not silently `0`) in the aggregated output. Country coverage starts as early as 1960 for some countries (Ghana, Egypt, Nigeria, South Africa, Tanzania) but as late as 1999–2001 for others (Algeria, Sierra Leone) — a real data-availability constraint, not a cleaning artifact. `Value_added_nominal` from the raw source was not carried forward — only what was asked for (employment shares, real value added, labor productivity).
 
 **Not yet merged** with `trade_agreements_with_exposure_country_year.csv` — that's the next step (methodology doc §6.2 step 6), joining on `iso3`/`year`.
+
+## McMillan–Rodrik decomposition files
+
+The McMillan & Rodrik (2011) productivity decomposition (methodology doc §6.3), run on `ggdc_africa_broad_sectors.csv` in `notebooks/03_clean_ggdc_productivity.ipynb` §10–§14. Confirmed directly from the paper's own equation (1) — this caught and fixed a timing error in an earlier version of the methodology doc, which had the structural-change term using beginning-of-period rather than end-of-period productivity levels.
+
+```
+ΔY_t = Σ_i θ_i,(t-k) · Δy_i,t   +   Σ_i y_i,t · Δθ_i,t
+```
+
+`θ` is employment share, `y` is labor productivity (here, `labor_productivity_real`), and the two terms sum to the *actual* change in economy-wide productivity with zero residual by construction — verified numerically (residuals of order 1e-12 to 1e-13, not merely small).
+
+**Four files**, splitting two independent choices — country-level total vs. broken out by sector, and year-over-year vs. each country's full observed window:
+
+| File | Grain | `year0`/`year1` |
+|---|---|---|
+| `mcmillan_rodrik_decomposition_annual.csv` | One row per (country, consecutive year pair) — the three sectors already summed | Always one calendar year apart |
+| `mcmillan_rodrik_decomposition_annual_by_sector.csv` | One row per (country, consecutive year pair, broad sector) | Always one calendar year apart |
+| `mcmillan_rodrik_decomposition_fullperiod.csv` | One row per country — the three sectors already summed | That country's first and last years with complete data for all three broad sectors (varies by country — e.g. 1960–2017 for Ghana, 2002–2017 for Angola) |
+| `mcmillan_rodrik_decomposition_fullperiod_by_sector.csv` | One row per (country, broad sector) | Same window as the country-level file above |
+
+The `_by_sector` files' `within`/`structural_change` for a given (country, year0, year1) sum *exactly* (to ~1e-13) to the corresponding row in the non-`_by_sector` file — verified in the notebook, not assumed. **This is the more useful pair of files for this project's actual research question** (the impact of trade agreements on *sectoral* productivity) — the country-level totals collapse away exactly the sector detail the theoretical channels in methodology doc §2.2–§2.3 make predictions about.
+
+| Column | Meaning |
+|---|---|
+| `iso3`, `year0`, `year1` | As above |
+| `broad_sector` (`_by_sector` files only) | `Agriculture`, `Manufacturing`, or `Services` |
+| `Y0`, `Y1` (non-`_by_sector` files only) | Economy-wide labor productivity (employment-share-weighted average across the three broad sectors) at `year0` and `year1` |
+| `employment_share_0`/`_1`, `productivity_0`/`_1` (`_by_sector` files only) | That sector's employment share and `labor_productivity_real` at `year0`/`year1` — the raw inputs each row's `within`/`structural_change` is built from |
+| `within` | The within-sector component: `θ_i,(t-k) · Δy_i,t` (sector-level) or `Σ_i θ_i,(t-k) · Δy_i,t` (country-level) |
+| `structural_change` | The structural-change (reallocation) component: `y_i,t · Δθ_i,t` (sector-level) or `Σ_i y_i,t · Δθ_i,t` (country-level) |
+| `actual_change`, `decomposed_change` (non-`_by_sector` files only) | `Y1 - Y0`, and `within + structural_change` — identical to floating-point precision; kept as separate columns so this is checkable rather than assumed |
+| `pct_within`, `pct_structural_change` (`mcmillan_rodrik_decomposition_fullperiod.csv` only) | Each component's share of `decomposed_change`. **Can be far outside [0, 100]%** when the two components partly offset (e.g. Malawi: -370%/+470%, because its net change is small relative to both components) — a real feature of shift-share decompositions when net change is near zero, not a bug. |
+
+**Qualitative validation against the literature** (methodology doc §2.6): country-level within-sector is positive and the larger component for most countries; structural change is negative for 4 of 24 countries (Zambia, Eswatini, Sierra Leone, Angola) — consistent with, though not a strict replication of, McMillan & Rodrik (2011) and Diao, McMillan & Rodrik's "African paradox" finding that structural change in Africa is often growth-reducing rather than growth-enhancing. At the sector level, a clean textbook structural-transformation pattern shows up (e.g. Ghana 1960–2017): agriculture's employment share falls (a *negative* structural-change contribution, `-1.40`), while manufacturing's and especially services' shares rise (`+0.35`, `+2.11`) — labor moving out of agriculture and into manufacturing/services. Not a specific published number to match — this project's sample period and country set both differ from the original papers'.
+
+**Not yet run against `Reciprocal_c,t`** — that's methodology doc §6.3 designs (A) and (B), which require merging with `trade_agreements_with_exposure_country_year.csv` first.
