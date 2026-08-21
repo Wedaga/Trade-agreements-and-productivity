@@ -1,12 +1,13 @@
 # Processed data
 
-Outputs of three notebooks:
+Outputs of four notebooks:
 
 1. [`notebooks/01_clean_trade_agreements.ipynb`](../../notebooks/01_clean_trade_agreements.ipynb) — builds the African–Northern trade-agreement panel described in `docs/developing-country-trade-productivity.md` §5–§6, from the raw source in `data/baier-bergstrand/`.
 2. [`notebooks/02_clean_cepii_gravity.ipynb`](../../notebooks/02_clean_cepii_gravity.ipynb) — builds the trade- and GDP-weighted exposure variables (methodology doc §6.2 step 5), from the raw source in `data/cepii-gravity/`, and merges them onto notebook 1's country–year panel. Run after notebook 1.
 3. [`notebooks/03_clean_ggdc_productivity.ipynb`](../../notebooks/03_clean_ggdc_productivity.ipynb) — aggregates the 9-sub-sector GGDC productivity panel down to Agriculture/Manufacturing/Services, from the raw source `data/Global-Productivity-Sectoral-Database.dta`, then runs the McMillan & Rodrik (2011) productivity decomposition on the result (methodology doc §6.3). Independent of notebooks 1–2 (different source, not yet merged with the trade-agreement panel).
+4. [`notebooks/04_build_estimation_panel.ipynb`](../../notebooks/04_build_estimation_panel.ipynb) — merges notebook 3's decomposition output onto notebook 2's trade-agreement panel, producing the analysis-ready dataset methodology doc §6.4's regressions run on. Run after notebooks 1–3.
 
-Re-run in order (1 before 2; 3 is independent) to regenerate the seven files below from their raw sources.
+Re-run in order (1, then 2, then 4; 3 can run independently of 1–2 but must run before 4) to regenerate the nine files below from their raw sources.
 
 ## `baier_bergstrand_africa_northern_country_year.csv`
 
@@ -150,4 +151,22 @@ The `_by_sector` files' `within`/`structural_change` for a given (country, year0
 
 **Qualitative validation against the literature** (methodology doc §2.6): country-level within-sector is positive and the larger component for most countries; structural change is negative for 4 of 24 countries (Zambia, Eswatini, Sierra Leone, Angola) — consistent with, though not a strict replication of, McMillan & Rodrik (2011) and Diao, McMillan & Rodrik's "African paradox" finding that structural change in Africa is often growth-reducing rather than growth-enhancing. At the sector level, a clean textbook structural-transformation pattern shows up (e.g. Ghana 1960–2017): agriculture's employment share falls (a *negative* structural-change contribution, `-1.40`), while manufacturing's and especially services' shares rise (`+0.35`, `+2.11`) — labor moving out of agriculture and into manufacturing/services. Not a specific published number to match — this project's sample period and country set both differ from the original papers'.
 
-**Not yet run against `Reciprocal_c,t`** — that's methodology doc §6.3 designs (A) and (B), which require merging with `trade_agreements_with_exposure_country_year.csv` first.
+**Now merged with `trade_agreements_with_exposure_country_year.csv`** — see `estimation_panel_interval3.csv` / `estimation_panel_interval5.csv` below, built by `notebooks/04_build_estimation_panel.ipynb`.
+
+## `estimation_panel_interval3.csv` and `estimation_panel_interval5.csv`
+
+**The dataset methodology doc §6.4's regressions are meant to run on.** Built by [`notebooks/04_build_estimation_panel.ipynb`](../../notebooks/04_build_estimation_panel.ipynb), merging the `mcmillan_rodrik_decomposition_interval{3,5}[_by_sector].csv` files above onto `trade_agreements_with_exposure_country_year.csv`. One row per (country, interval, sector-or-`"Total"`) — the country-level totals from the non-`_by_sector` decomposition file are folded in as a `broad_sector == "Total"` pseudo-sector row (employment share trivially 1.0, productivity = economy-wide productivity), the same convention the raw GGDC source itself uses for its own `Total` row alongside its sub-sectors — so this single file serves both the sector-level primary analysis and the country-level companion summary; filter on `broad_sector` to pick one or the other.
+
+| Column | Meaning |
+|---|---|
+| `iso3`, `country`, `year0`, `year1`, `broad_sector` | As in the source decomposition files, plus `country` (looked up, since the decomposition files only carry `iso3`) |
+| `within`, `structural_change`, `employment_share_0`/`_1`, `productivity_0`/`_1`, `short_series` | Carried over unchanged from the sector-level decomposition file (or synthesized for `"Total"` rows as described above) |
+| `country_productivity_0`/`_1`, `country_actual_change`, `country_decomposed_change` | The country-level context for this row's interval, **explicitly prefixed** so a sector-level row's own values (`within`, `structural_change`, `productivity_0`/`_1`) aren't mistaken for the country total — these four columns repeat identically across all four `broad_sector` rows in a group |
+| `*_pre` columns (`country_exists_pre`, `depth_score_pre`, `agreement_type_pre`, `reciprocal_pre`, `fta_or_deeper_pre`, `nonreciprocal_only_pre`, `reciprocal_trade_share_pre`, `reciprocal_gdp_share_pre`, `gdp_african_pre`, `gdpcap_african_pre`, `pop_african_pre`, `wto_african_pre`, `gatt_african_pre`) | Trade-agreement-side variables at `year0` — **deliberately pre-determined** (start-of-interval), not `year1` or an average, to avoid "bad control" bias from controls the treatment could itself have affected |
+| `reciprocal_post`, `country_exists_post` | `reciprocal` and `country_exists` at `year1`, used only to derive `treatment_status` below |
+| `treatment_status` | `never_reciprocal`, `always_reciprocal`, `switched_during_interval`, or `missing_reciprocal_data` (country didn't yet exist at `year0` or `year1` — e.g. Tanzania's 1960–1963/1963–1966 intervals, pre-1964 union). A fifth logical case, a reversion (`reciprocal_pre=1` and `reciprocal_post=0`), is checked for and confirmed to never occur — `Reciprocal_c,t`'s absorbing property (confirmed annually in notebook 01) holds at interval resolution too. |
+| `reciprocal_interval` | The simplest usable binary treatment indicator: 1 if `treatment_status` is `always_reciprocal` or `switched_during_interval`, else 0. **`switched_during_interval` bins mix pre- and post-treatment dynamics within the same bin** — decide deliberately (drop, or treat as its own category) how to handle them in a regression rather than pooling them in unexamined; `treatment_status` is kept as its own column precisely so this choice isn't made silently. |
+
+**Validated against South Africa's 2000 EU TDCA entry**: the 1996–1999 interval shows `never_reciprocal`, 1999–2002 (which contains the 2000 entry date) shows `switched_during_interval`, and 2002–2005 shows `always_reciprocal` — the classification lines up with real history, not just internal consistency.
+
+Only a subset of the trade panel's own columns were carried over as `_pre` controls — the fuller set (Northern-partner counts, raw trade/GDP totals) remains in `trade_agreements_with_exposure_country_year.csv` if needed later. The `short_series` flag (Angola, Sierra Leone at 5-year resolution) is inherited as-is, still not excluded — see the recommendation in methodology doc §6.3 to keep them in the baseline sample.
