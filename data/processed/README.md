@@ -1,11 +1,12 @@
 # Processed data
 
-Outputs of two notebooks, run in order:
+Outputs of three notebooks:
 
 1. [`notebooks/01_clean_trade_agreements.ipynb`](../../notebooks/01_clean_trade_agreements.ipynb) — builds the African–Northern trade-agreement panel described in `docs/developing-country-trade-productivity.md` §5–§6, from the raw source in `data/baier-bergstrand/`.
-2. [`notebooks/02_clean_cepii_gravity.ipynb`](../../notebooks/02_clean_cepii_gravity.ipynb) — builds the trade- and GDP-weighted exposure variables (methodology doc §6.2 step 5), from the raw source in `data/cepii-gravity/`, and merges them onto notebook 1's country–year panel.
+2. [`notebooks/02_clean_cepii_gravity.ipynb`](../../notebooks/02_clean_cepii_gravity.ipynb) — builds the trade- and GDP-weighted exposure variables (methodology doc §6.2 step 5), from the raw source in `data/cepii-gravity/`, and merges them onto notebook 1's country–year panel. Run after notebook 1.
+3. [`notebooks/03_clean_ggdc_productivity.ipynb`](../../notebooks/03_clean_ggdc_productivity.ipynb) — aggregates the 9-sub-sector GGDC productivity panel down to Agriculture/Manufacturing/Services, from the raw source `data/Global-Productivity-Sectoral-Database.dta`. Independent of notebooks 1–2 (different source, not yet merged with the trade-agreement panel).
 
-Re-run both notebooks in order to regenerate all four files below from their raw sources.
+Re-run in order (1 before 2; 3 is independent) to regenerate the five files below from their raw sources.
 
 ## `baier_bergstrand_africa_northern_country_year.csv`
 
@@ -77,3 +78,31 @@ The intermediate bilateral panel `trade_agreements_with_exposure_country_year.cs
 | `trade_imf` | Bilateral trade (IMF DOTS, mirror-averaged across the two directional rows, both directions summed), thousands of current USD. `NaN` (not `0`) where no direction has data. |
 | `trade_imf_n_directions` | 0, 1, or 2 — how many of the two directional flows contributed a non-missing value. |
 | `gdp_northern`, `gdp_ppp_northern` | The Northern partner's own GDP that year (current USD and PPP-adjusted). |
+
+## `ggdc_africa_broad_sectors.csv`
+
+The GGDC sectoral productivity panel (`data/Global-Productivity-Sectoral-Database.dta`), restricted to the project's 24 African countries and aggregated from its native 9 sub-sectors down to the three broad sectors — Agriculture, Manufacturing, Services — that the McMillan–Rodrik decomposition (methodology doc §6.3) runs on. One row per (African country, broad sector, year), 1950–2017 (coverage varies sharply by country — see below).
+
+**The aggregation follows Herrendorf, Rogerson & Valentinyi (2014), "Growth and Structural Transformation"** (NBER WP 18996 / Handbook of Economic Growth Vol. 2B Ch. 6), confirmed directly from their Data Appendix (pp. 95–96) for the specific data source this project uses (the Groningen/GGDC 10-sector database, their own primary historical source):
+
+| Broad sector | GGDC sub-sectors mapped in |
+|---|---|
+| **Agriculture** | `1.Agriculture` |
+| **Manufacturing** | `2.Mining`, `3.Manufacturing`, `5.Construction` |
+| **Services** | `4.Utilities`, `6.Trade services`, `7.Transport services`, `8.Finance amd business services` [sic, source typo], `9.Other services` |
+
+The one detail worth flagging because it's easy to guess wrong: **utilities go with Services, not Manufacturing**, under HRV's own ISIC-code-based rule for this specific source — their paper uses a different rule (utilities → industry) for some of their *other* non-GGDC data sources, but this is the one tied to the actual database used here.
+
+| Column | Meaning |
+|---|---|
+| `iso3`, `country`, `year` | As elsewhere; `country` keeps the source's own name string (e.g. "United Republic of Tanzania" for `TZA`) |
+| `broad_sector` | `Agriculture`, `Manufacturing`, or `Services` |
+| `value_added_real` | Real value added, summed across the mapped sub-sectors, in the source's native units (not independently re-verified — see the notebook's own caveat) |
+| `employment` | Employment, summed across the mapped sub-sectors |
+| `employment_share` | This broad sector's share of the country-year's total employment across all three broad sectors; sums to exactly 1.0 within a country-year wherever no sub-sector is missing |
+| `labor_productivity_real` | Recomputed as aggregated `value_added_real` / aggregated `employment` — **not** an average of the sub-sectors' own productivity figures, which would be the wrong aggregation |
+| `labor_productivity_ppp` | Same idea, but for the PPP-based measure, which required backing out an implied PPP value-added series first (`source productivity × source employment`) since the raw source only reports the ratio, not its PPP-terms numerator — validated to match the source's own `Total` row exactly (float32 precision, ~1e-7 relative) |
+
+**Data-quality notes**: Namibia (1960–1964) and Botswana (1964–1967) have a handful of country-years with at least one missing sub-sector, which propagate as genuine `NaN` (not silently `0`) in the aggregated output. Country coverage starts as early as 1960 for some countries (Ghana, Egypt, Nigeria, South Africa, Tanzania) but as late as 1999–2001 for others (Algeria, Sierra Leone) — a real data-availability constraint, not a cleaning artifact. `Value_added_nominal` from the raw source was not carried forward — only what was asked for (employment shares, real value added, labor productivity).
+
+**Not yet merged** with `trade_agreements_with_exposure_country_year.csv` — that's the next step (methodology doc §6.2 step 6), joining on `iso3`/`year`.
