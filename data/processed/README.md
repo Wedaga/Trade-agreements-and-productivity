@@ -6,6 +6,7 @@ Outputs of four notebooks:
 2. [`notebooks/02_clean_cepii_gravity.ipynb`](../../notebooks/02_clean_cepii_gravity.ipynb) — builds the trade- and GDP-weighted exposure variables (methodology doc §6.2 step 5), from the raw source in `data/cepii-gravity/`, and merges them onto notebook 1's country–year panel. Run after notebook 1.
 3. [`notebooks/03_clean_ggdc_productivity.ipynb`](../../notebooks/03_clean_ggdc_productivity.ipynb) — aggregates the 9-sub-sector GGDC productivity panel down to Agriculture/Manufacturing/Services, from the raw source `data/Global-Productivity-Sectoral-Database.dta`, then runs the McMillan & Rodrik (2011) productivity decomposition on the result (methodology doc §6.3). Independent of notebooks 1–2 (different source, not yet merged with the trade-agreement panel).
 4. [`notebooks/04_build_estimation_panel.ipynb`](../../notebooks/04_build_estimation_panel.ipynb) — merges notebook 3's decomposition output onto notebook 2's trade-agreement panel, producing the analysis-ready dataset methodology doc §6.4's regressions run on. Run after notebooks 1–3.
+5. [`notebooks/05_descriptive_event_study.ipynb`](../../notebooks/05_descriptive_event_study.ipynb) — the descriptive event-study plots and other descriptives methodology doc §6.4.A calls for, before any regression. Uses the annual (not interval) panels from notebooks 1 and 3, so it can run any time after those two.
 
 Re-run in order (1, then 2, then 4; 3 can run independently of 1–2 but must run before 4) to regenerate the nine files below from their raw sources.
 
@@ -170,3 +171,21 @@ The `_by_sector` files' `within`/`structural_change` for a given (country, year0
 **Validated against South Africa's 2000 EU TDCA entry**: the 1996–1999 interval shows `never_reciprocal`, 1999–2002 (which contains the 2000 entry date) shows `switched_during_interval`, and 2002–2005 shows `always_reciprocal` — the classification lines up with real history, not just internal consistency.
 
 Only a subset of the trade panel's own columns were carried over as `_pre` controls — the fuller set (Northern-partner counts, raw trade/GDP totals) remains in `trade_agreements_with_exposure_country_year.csv` if needed later. The `short_series` flag (Angola, Sierra Leone at 5-year resolution) is inherited as-is, still not excluded — see the recommendation in methodology doc §6.3 to keep them in the baseline sample.
+
+## Descriptive event-study outputs
+
+Small summary tables from [`notebooks/05_descriptive_event_study.ipynb`](../../notebooks/05_descriptive_event_study.ipynb) (methodology doc §6.4.A) — the underlying charts themselves live in the notebook, these are the aggregated data behind them, kept for reuse without re-running the notebook.
+
+| File | Contents |
+|---|---|
+| `descriptive_treatment_adoption.csv` | One row per country: `first_reciprocal_year` (blank for the 7 never-treated countries) and `ever_treated` (0/1). |
+| `descriptive_event_study_productivity.csv` | Mean/SEM/count of the log productivity index (indexed to 0 at event time -1) by `broad_sector` and `event_time`, event time in [-10, +7]. Algeria excluded (no pre-treatment data in this project's GGDC coverage — treated in 1976 per Baier–Bergstrand, but GGDC data only starts 1999). |
+| `descriptive_event_study_decomposition.csv` | Mean/SEM of the annual `within`/`structural_change` decomposition components by `broad_sector` and `event_time` (two-level column header: variable, then statistic). |
+
+**Headline findings** (full discussion, including what's a genuine pattern vs. likely small-sample noise, is in the notebook itself):
+
+- Treatment adoption clusters in two cohorts (1976–2000, then 2007–2010) rather than spreading smoothly — any pooled event-time average over-represents the larger, later cohort at long horizons.
+- Productivity *levels* show a pre-existing rising trend in all three sectors that **accelerates** post-treatment in Agriculture (4.4x steeper) and Services (2.6x steeper) but **decelerates** in Manufacturing (to 0.3x its pre-treatment slope) — plausibly consistent with short-run adjustment costs from import competition (methodology doc §2.2–§2.3), not necessarily evidence against the design.
+- The annual within-sector *growth rate* (the actual regression outcome, not the level) shifts from negative to positive after treatment in Manufacturing and Services specifically — the sectors and direction the theoretical channels predict.
+- Never-treated countries have similar median growth to treated countries in every sector (supporting their use as a comparison group) but far more dispersion (IQR 5–7x wider in Agriculture/Manufacturing) — a source of noisier standard errors, not bias, at the regression stage.
+- One country (Algeria) has zero pre-treatment observations in this project's data and cannot be event-time-aligned at all.
