@@ -1,0 +1,28 @@
+\section{Productivity growth decomposition}
+\label{sec2}
+Labor productivity growth typically stems from two primary sources. Firstly, productivity advancements may arise from within sectors, facilitated by intra-industry improvements in capital accumulation and technological innovations. Additionally, productivity growth can be driven by the reallocation of labor across sectors, shifting from low-productivity sectors to high-productivity ones. The first step in this analysis is to decompose aggregate labor productivity growth into these two components.
+
+Consider a country with data on value-added and employment for 9 sectors. For each country (\textit{j}), the value added for each sector (\textit{i}) at time (\textit{t}) is represented as $Q_{jit}$. Similarly, represent the number of persons employed in each sector as $L_{jit}$. Define sector-level labor productivity and employment shares, respectively, as:
+$$
+y_{jit}=\frac{Q_{jit}}{L_{jit}}
+$$
+ $$
+ l_{jit}= \frac{L_{jit}}{L_{jt}}
+ $$      
+Hence, aggregate labor productivity in a country can be defined as the weighted sum of the productivity across all sectors, where the weight is the respective sector's employment share. That is:
+\begin{equation}
+    LP_{jt} = \sum_{i=1}^{9} y_{jit} l_{jit}
+    \label{prod}
+\end{equation}
+
+Considering a period [0,1] where 0 is the beginning of the period and 1 is the end of the period, the change in aggregate labor productivity at the end of the period is:
+\begin{equation}
+    LP_{j,1}-LP_{j0}=\sum_{i=1}^9 y_{ji1}l_{ji1} - \sum_{i=0} ^9 y_{ji0} l_{ji0}
+    \label{prodgr}
+\end{equation}
+With some rearranging and algebraic manipulation, equation (2) can be expressed in growth terms as:
+\begin{equation}
+    \frac{LP_{j1}- LP_{j0}}{LP_{j0}}= \frac{1}{LP_{j0}}\sum_{i=1}^9(y_{ji1}-y_{ji0}). l_{ji0} + \frac{1}{LP_{j0}} \sum_{i=1}^9 (l_{ji1}-l_{ji0}).y_{ji1}
+    \label{mac}
+\end{equation}
+This is the decomposition presented by \cite{mcmillan2011making}. The first term on the right-hand side is the intra-industry component. It is measured as the sum of the changes in industry labor productivity weighted by the industry employment shares at the beginning of the period. Because the employment shares are held constant, any changes in this component can only be attributed to intra-industry improvement in labor productivity. The second term is the structural change component. This is a weighted sum of the changes in employment shares with the sector productivity levels as weights. This captures the labor productivity effect of labor reallocation across the sectors. As a result, a positive vale for the structural change component implies a movement of labor from less productive to more productive sectors. Other authors, such as  \cite{timmer2000productivity}, provide alternative three-component decompositions. However, the approach of \cite{mcmillan2011making} is adopted for simplicity\footnote{The procedure by \cite{timmer2000productivity} decomposes productivity growth into three components: the intra-industry effect, the static shift effect, and the dynamic shift effect. The summation of the static shift effect and the dynamic shift effect is equivalent to the structural change component presented by \cite{mcmillan2011making}}. 
